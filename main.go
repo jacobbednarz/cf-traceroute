@@ -63,10 +63,10 @@ func main() {
 	for _, target := range r {
 		fmt.Println(target.Target)
 		for _, colo := range target.Colos {
-			fmt.Printf("  %s\n", colo.Colo.Name)
+			fmt.Printf("  %s\n", strings.ToUpper(colo.Colo.Name))
 			for _, hop := range colo.Hops {
 				for _, node := range hop.Nodes {
-					fmt.Fprintf(w, "    %d\t%s (%s - %s)\t%fms\n", hop.PacketsTTL, node.Name, node.IP, node.Asn, node.MeanRttMs)
+					fmt.Fprintf(w, "    %d\t%s (%s - %s)\t%0.2fms\n", hop.PacketsTTL, node.Name, node.IP, node.Asn, node.MeanRttMs)
 				}
 			}
 			w.Flush()
