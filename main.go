@@ -11,6 +11,25 @@ import (
 	"github.com/cloudflare/cloudflare-go"
 )
 
+func displayMissingParameterNotice(field string) {
+	fmt.Printf("missing parameter: %s is required\n\n", field)
+	flag.PrintDefaults()
+	os.Exit(1)
+}
+
+func contains(s []string, e string) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
+
+func supportedTypes() []string {
+	return []string{"icmp", "tcp", "udp", "gre", "gre+icmp"}
+}
+
 func main() {
 	apiKey := flag.String("api-key", "", "Cloudflare API key to use")
 	email := flag.String("email", "", "Cloudflare email to use")
@@ -20,7 +39,20 @@ func main() {
 	debug := flag.Bool("debug", false, "Increase debug verbosity")
 	flag.Parse()
 
-	if *apiKey == "" || *email == "" || *accountID == "" {
+	if *apiKey == "" {
+		displayMissingParameterNotice("api-key")
+	}
+
+	if *email == "" {
+		displayMissingParameterNotice("email")
+	}
+
+	if *accountID == "" {
+		displayMissingParameterNotice("account-id")
+	}
+
+	if !contains(supportedTypes(), *packetType) {
+		fmt.Printf("invalid packet-type provided: %q. Must be one of %s\n", *packetType, strings.Join(supportedTypes(), ", "))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
