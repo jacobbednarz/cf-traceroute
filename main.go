@@ -36,6 +36,12 @@ func main() {
 	accountID := flag.String("account-id", "", "Cloudflare account ID to use for requests")
 	targets := flag.String("targets", "", "Comma delimitered list of targets to run against")
 	colos := flag.String("colos", "", "Comma delimitered list of colocations to run the test from")
+
+	packetsPerTTL := flag.Int("packets-per-ttl", 10, "Number of packets sent at each TTL")
+	packetType := flag.String("packet-type", "icmp", "Type of packet sent for traceroute")
+	maxTTL := flag.Int("max-ttl", 5, "Maximum TTL")
+	waitTime := flag.Int("wait-time", 5, "Time (in seconds) to wait for a response to a probe")
+
 	debug := flag.Bool("debug", false, "Increase debug verbosity")
 	flag.Parse()
 
@@ -75,10 +81,10 @@ func main() {
 	}
 
 	opts := cloudflare.DiagnosticsTracerouteConfigurationOptions{
-		PacketsPerTTL: 10,
-		PacketType:    "icmp",
-		MaxTTL:        5,
-		WaitTime:      1,
+		PacketsPerTTL: *packetsPerTTL,
+		PacketType:    *packetType,
+		MaxTTL:        *maxTTL,
+		WaitTime:      *waitTime,
 	}
 
 	if *debug {
