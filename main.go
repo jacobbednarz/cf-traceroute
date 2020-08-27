@@ -55,20 +55,27 @@ func main() {
 
 	r, err := client.PerformTraceroute(*accountID, targetsMap, coloMap, opts)
 	if err != nil {
-		fmt.Errorf("failed to perform traceroute: %s", err)
+		log.Fatalf("failed to perform traceroute: %s", err)
 	}
 
 	w := tabwriter.NewWriter(os.Stdout, 8, 8, 0, '\t', 0)
 
 	for _, target := range r {
-		fmt.Println(target.Target)
+		fmt.Printf("\n%s\n", target.Target)
 		for _, colo := range target.Colos {
 			fmt.Printf("  %s\n", strings.ToUpper(colo.Colo.Name))
+
+			if colo.Error != "" {
+				fmt.Printf("    %s\n", colo.Error)
+				continue
+			}
+
 			for _, hop := range colo.Hops {
 				for _, node := range hop.Nodes {
 					fmt.Fprintf(w, "    %d\t%s (%s - %s)\t%0.2fms\n", hop.PacketsTTL, node.Name, node.IP, node.Asn, node.MeanRttMs)
 				}
 			}
+
 			w.Flush()
 		}
 	}

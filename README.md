@@ -3,7 +3,7 @@
 Perform `traceroute` from the Cloudflare Network to various targets.
 
 NOTE: Pretty rough first cut and depends on
-https://github.com/cloudflare/cloudflare-go/pull/520 to work. Once you
+https://github.com/cloudflare/cloudflare-go/pull/523 to work. Once you
 have that dependency, this will work. Grab the precompiled binaries if
 you want it to work for now.
 
@@ -17,7 +17,7 @@ $ ./cf-traceroute \
   -api-key="EXAMPLE" \
   -email="me@example.com" \
   -account-id="f037e56e89293a057740de681ac9abbe" \
-  -targets "example.com,google.com,cloudflare.com" 
+  -targets "example.com,google.com,cloudflare.com"
   -colos "den01,sfo06"
 
  cloudflare.com
@@ -39,7 +39,7 @@ google.com
     3	108.170.252.209 (108.170.252.209 - AS15169)		1.542100ms
     4	216.239.49.43 (216.239.49.43 - AS15169)			0.431000ms
     5	den02s02-in-f14.1e100.net (172.217.12.14 - AS15169)	0.290800ms
-    
+
 example.com
   den01
     1	_gateway (172.68.33.1 - AS13335)				1.049400ms
